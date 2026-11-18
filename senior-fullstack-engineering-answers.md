@@ -1,3 +1,15 @@
+# Nicolas Van Klaveren
+
+**Senior Software Architect & AI Engineer**
+
+I build distributed systems and agentic workflows that turn complex tasks into verified outcomes — with explicit rules, measurable quality and a human in the loop.
+
+Stack: .NET · TypeScript · Python · Go
+
+[LinkedIn](https://www.linkedin.com/in/nklaveren/) · [Project on GitHub](https://github.com/nklaveren/matw-playbook)
+
+[Download the provided DOCX copy](senior-fullstack-engineering-answers.docx)
+
 # Engineering Questionnaire
 
 **Nicolas Van Klaveren** — Senior Full Stack Engineer · Backend-focused
@@ -823,14 +835,14 @@ This appendix describes the delivery path of this page and of its Markdown expor
 
 ### Public source
 
-The site is one HTML file with no framework, no build step and no runtime dependency: a single data array drives both the page and the Markdown export, and the browser is the only runtime. The source, the export script and the tests are public.
+The 3D scene uses Three.js. A local build embeds the renderer and portrait directly into one self-contained HTML file; no CDN or API is required at runtime. A single question dataset drives the page and the Markdown export. The source, the build and export scripts, and the tests are public.
 
 - [Repository](https://github.com/nklaveren/matw-playbook)
 - [Workflow runs](https://github.com/nklaveren/matw-playbook/actions/workflows/site.yml)
 
 ### What the public pipeline does
 
-The "Validate site" workflow runs on GitHub-hosted runners with read-only repository permissions. It parses the inline JavaScript, checks the question entries and the static Markdown, runs the unit and browser tests, and — only for a successful push to main — uploads an artifact named "site" that contains exactly two files: index.html and senior-fullstack-engineering-answers.md.
+The "Validate site" workflow runs on GitHub-hosted runners with read-only repository permissions. It checks the embedded build, question entries and static Markdown, runs unit and browser tests, and — only for a successful push to main — uploads an artifact named "site": index.html, senior-fullstack-engineering-answers.md and the supplied Word copy, senior-fullstack-engineering-answers.docx.
 
 There the public pipeline stops: it never deploys and never authenticates against a production environment.
 
@@ -842,4 +854,4 @@ Deployment lives in a separate private repository. Its pipeline consumes a succe
 
 Cluster manifests stay in the private repository; cluster credentials and network access stay with the deployment controller. The public workflow has neither and never clones a private repository.
 
-Only the artifact crosses the boundary: two static files, validated by the public pipeline and promoted by a human in the private one.
+Only the static delivery artifact crosses the boundary: the page, its Markdown export and the provided Word copy. Production promotion is a separate, human-triggered step.

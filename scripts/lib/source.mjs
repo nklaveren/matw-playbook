@@ -171,6 +171,7 @@ export function inlineScript(html = readHtml()) {
 export function loadSource(html = readHtml()) {
   const js = inlineScript(html);
   const sources = [
+    "var PROFILE = " + sliceVarLiteral(js, "PROFILE") + ";",
     "var QUESTIONS = " + sliceVarLiteral(js, "QUESTIONS") + ";",
     "var CATS = " + sliceVarLiteral(js, "CATS") + ";",
     "var APPENDIX = " + sliceVarLiteral(js, "APPENDIX") + ";",
@@ -181,7 +182,7 @@ export function loadSource(html = readHtml()) {
     sliceFunction(js, "buildMarkdown")
   ];
   const context = {
-    QUESTIONS: null, CATS: null, APPENDIX: null,
+    QUESTIONS: null, CATS: null, APPENDIX: null, PROFILE: null,
     AUTHOR: null, ROLE: null, EXPORT_NAME: null,
     mdCell: null, buildMarkdown: null
   };
@@ -195,6 +196,7 @@ export function loadSource(html = readHtml()) {
     questions: plain(context.QUESTIONS),
     cats: plain(context.CATS),
     appendix: plain(context.APPENDIX),
+    profile: plain(context.PROFILE),
     author: context.AUTHOR,
     role: context.ROLE,
     exportName: context.EXPORT_NAME,

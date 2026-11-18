@@ -17,6 +17,7 @@ const HOST = process.env.HOST || "127.0.0.1";
 const TYPES = {
   ".html": "text/html; charset=utf-8",
   ".md": "text/markdown; charset=utf-8",
+  ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   ".js": "text/javascript; charset=utf-8",
   ".mjs": "text/javascript; charset=utf-8",
   ".css": "text/css; charset=utf-8",
@@ -43,11 +44,26 @@ function resolveTarget(urlPath) {
   return target;
 }
 
-const server = http.createServer((req, res) => {
+const DEV = process.env.MATW_DEV === '1';
+const compiler = DEV ? await import('./build-graph.mjs') : null;
+const server = http.createServer(async (req, res) => {
   const target = resolveTarget(req.url || "/");
   if (!target || !fs.existsSync(target) || !fs.statSync(target).isFile()) {
     res.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
     res.end("not found\n");
+    return;
+  }
+  if (DEV && target.endsWith('/index.html')) {
+    try {
+      const source = await fs.promises.readFile(target, 'utf8');
+      const { html } = await compiler.compileHtml(source);
+      res.writeHead(200, { 'content-type': TYPES['.html'], 'cache-control': 'no-store' });
+      res.end(html);
+    } catch (error) {
+      res.writeHead(500, { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'no-store' });
+      res.end('Local preview could not compile. Check the terminal.');
+      console.error(error);
+    }
     return;
   }
   res.writeHead(200, {
@@ -59,4 +75,5 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, HOST, () => {
   console.log("serving " + ROOT + " on http://" + HOST + ":" + PORT + BASE_PATH);
+  if (DEV) console.log('Development mode: HTML, Three.js and CSS are compiled together on each reload.');
 });

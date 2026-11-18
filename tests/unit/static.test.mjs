@@ -40,12 +40,13 @@ test("the page loads no remote resource", () => {
   assert.ok(!/<iframe/i.test(html), "the page has an iframe");
 });
 
-test("the only external links are the public repository links", () => {
+test("external links are limited to the requested professional profile and public repository", () => {
   const links = [...html.matchAll(/<a[^>]*\shref\s*=\s*["']([^"']*)["']/gi)].map((m) => m[1]);
   const remote = links.filter((h) => /^https?:/i.test(h));
   assert.deepEqual([...new Set(remote)].sort(), [
     "https://github.com/nklaveren/matw-playbook",
-    "https://github.com/nklaveren/matw-playbook/actions/workflows/site.yml"
+    "https://github.com/nklaveren/matw-playbook/actions/workflows/site.yml",
+    "https://www.linkedin.com/in/nklaveren/"
   ]);
 });
 
@@ -64,10 +65,12 @@ test("the appendix is rendered by the page, not as a question", () => {
   assert.ok(!source.cats.some((c) => c.id === "delivery"));
 });
 
-test("the page has no framework and no build step", () => {
+test("the compiled page is self-contained, with no runtime module loading", () => {
   assert.equal((html.match(/<script/g) || []).length, 1, "more than one inline script");
   assert.ok(!/<script[^>]*type=["'](module|importmap)/i.test(html), "the page uses a module or an import map");
   assert.ok(!/<script[^>]*\ssrc=/i.test(html), "the page loads an external script");
   assert.ok(!/<link[^>]*\shref=/i.test(html), "the page loads an external stylesheet");
   assert.ok(!/\brequire\(|\bimport\s+.*\bfrom\b/i.test(js), "the inline script uses modules");
+  assert.match(js, /THREE_GRAPH_BUNDLE_START/);
+  assert.match(js, /MATWGraph\.mountGraph/);
 });

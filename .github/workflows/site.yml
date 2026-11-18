@@ -33,6 +33,9 @@ jobs:
       - name: Unit and static tests
         run: npm run test:unit
 
+      - name: Check the embedded Three.js bundle and portrait
+        run: npm run check:build
+
       - name: Check the committed Markdown is in sync
         run: npm run check:md
 
@@ -50,5 +53,6 @@ jobs:
           path: |
             index.html
             senior-fullstack-engineering-answers.md
+            senior-fullstack-engineering-answers.docx
           if-no-files-found: error
           retention-days: 14

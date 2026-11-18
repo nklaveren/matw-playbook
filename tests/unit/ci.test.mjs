@@ -48,7 +48,7 @@ test("it uploads the site artifact only for a successful push to main", () => {
   assert.match(yaml, /retention-days:\s*14/);
 });
 
-test("the artifact holds the page and the Markdown, and nothing else", () => {
+test("the artifact holds only the page, Markdown and requested DOCX", () => {
   const lines = yaml.split("\n");
   const start = lines.findIndex((l) => /^\s*path:\s*\|/.test(l));
   assert.ok(start !== -1, "the workflow has no artifact path");
@@ -61,7 +61,7 @@ test("the artifact holds the page and the Markdown, and nothing else", () => {
     if (line.length - line.trimStart().length <= indent) break;
     files.push(line.trim());
   }
-  assert.deepEqual(files, ["index.html", "senior-fullstack-engineering-answers.md"]);
+  assert.deepEqual(files, ["index.html", "senior-fullstack-engineering-answers.md", "senior-fullstack-engineering-answers.docx"]);
 });
 
 test("the workflow carries no secret, no registry and no cluster access", () => {

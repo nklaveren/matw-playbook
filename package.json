@@ -5,14 +5,21 @@
   "description": "Engineering questionnaire site and its Markdown export",
   "type": "module",
   "scripts": {
+    "build": "node scripts/build-graph.mjs",
+    "check:build": "node scripts/build-graph.mjs --check",
     "export:md": "node scripts/export-md.mjs",
     "check:md": "node scripts/export-md.mjs --check",
     "serve": "node scripts/serve.mjs",
-    "test": "npm run test:unit && npm run check:md",
+    "dev": "MATW_DEV=1 node scripts/serve.mjs",
+    "test": "npm run test:unit && npm run check:md && npm run check:build",
     "test:unit": "node --test \"tests/unit/*.test.mjs\"",
     "test:e2e": "playwright test"
   },
   "devDependencies": {
-    "@playwright/test": "^1.65.1"
+    "@playwright/test": "^1.65.1",
+    "esbuild": "^0.25.12"
+  },
+  "dependencies": {
+    "three": "^0.180.0"
   }
 }

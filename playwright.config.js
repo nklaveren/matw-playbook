@@ -6,6 +6,7 @@ const BASE_URL = process.env.SITE_BASE_URL || "http://127.0.0.1:4173/matw_pb/";
 export default defineConfig({
   testDir: "./tests/e2e",
   fullyParallel: true,
+  workers: 2,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? "line" : "list",
@@ -19,9 +20,10 @@ export default defineConfig({
       use: {
         ...devices["Desktop Chrome"],
         // Escape hatch for a machine where the bundled browser cannot run.
-        launchOptions: process.env.PLAYWRIGHT_EXECUTABLE_PATH
-          ? { executablePath: process.env.PLAYWRIGHT_EXECUTABLE_PATH }
-          : undefined
+        launchOptions: {
+          args: ['--enable-unsafe-swiftshader'],
+          ...(process.env.PLAYWRIGHT_EXECUTABLE_PATH ? { executablePath: process.env.PLAYWRIGHT_EXECUTABLE_PATH } : {})
+        }
       }
     }
   ],
