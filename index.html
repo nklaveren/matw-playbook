@@ -1,0 +1,1671 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Engineering Questionnaire — Nicolas Van Klaveren, Senior Full Stack Engineer (Backend-focused). 21 questions with written answers and illustrative technical examples.">
+<title>Engineering Questionnaire — Nicolas Van Klaveren · Senior Full Stack Engineer (Backend-focused)</title>
+<style>
+/* ---------------------------------------------------------------- tokens */
+:root{
+  --paper:#fbfaf7;
+  --paper-2:#f4f2ec;
+  --card:#ffffff;
+  --ink:#14181d;
+  --ink-2:#39414b;
+  --muted:#6a7280;
+  --faint:#9aa1ab;
+  --line:#e3e0d7;
+  --line-2:#eeece4;
+  --teal:#0f766e;
+  --teal-2:#0d9488;
+  --teal-ink:#0b5f58;
+  --teal-soft:#e8f5f2;
+  --amber:#a16207;
+  --amber-2:#d97706;
+  --amber-soft:#fdf4e3;
+  --shadow-m:0 1px 2px rgba(16,24,40,.05), 0 14px 34px -18px rgba(16,24,40,.22);
+  --radius:14px;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --topbar:66px;
+}
+[data-theme="dark"]{
+  --paper:#0d1117;
+  --paper-2:#11161d;
+  --card:#151b23;
+  --ink:#e9e7e2;
+  --ink-2:#c6ccd4;
+  --muted:#8d97a3;
+  --faint:#6c7683;
+  --line:#232c37;
+  --line-2:#1c242d;
+  --teal:#5eead4;
+  --teal-2:#2dd4bf;
+  --teal-ink:#7dd3c7;
+  --teal-soft:#0f2723;
+  --amber:#fbbf24;
+  --amber-2:#f59e0b;
+  --amber-soft:#261d09;
+  --shadow-m:0 1px 2px rgba(0,0,0,.5), 0 18px 40px -20px rgba(0,0,0,.85);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-wrap:break-word;
+}
+h1,h2,h3{font-family:var(--serif);font-weight:600;letter-spacing:-.01em;margin:0}
+a{color:var(--teal)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--teal-2);outline-offset:2px;border-radius:6px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--teal);color:#fff;padding:.6rem 1rem;z-index:100;border-radius:0 0 8px 0}
+.skip:focus{left:0}
+
+/* ---------------------------------------------------------------- topbar */
+.topbar{
+  position:sticky;top:0;z-index:60;background:var(--paper);
+  border-bottom:1px solid var(--line);
+}
+.topbar-in{
+  max-width:1440px;margin:0 auto;padding:.6rem 1rem;
+  display:flex;align-items:center;gap:.75rem;min-height:var(--topbar);
+}
+.brand{display:flex;flex-direction:column;min-width:0;margin-right:auto}
+.brand .kicker{
+  font-size:.62rem;text-transform:uppercase;letter-spacing:.18em;color:var(--teal);
+  font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.brand .title{
+  font-family:var(--serif);font-size:1.02rem;line-height:1.3;color:var(--ink);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.searchbox{position:relative;flex:0 1 280px;min-width:130px}
+.searchbox input{
+  width:100%;padding:.5rem 2.1rem .5rem .8rem;border:1px solid var(--line);
+  border-radius:999px;background:var(--card);color:var(--ink);font-size:.86rem;
+}
+.searchbox input::placeholder{color:var(--faint)}
+.searchbox .hint{
+  position:absolute;right:.55rem;top:50%;transform:translateY(-50%);
+  font-size:.68rem;color:var(--faint);border:1px solid var(--line);
+  border-radius:5px;padding:.05rem .3rem;pointer-events:none;
+}
+.tb-actions{display:flex;gap:.4rem;align-items:center;flex:0 0 auto}
+.btn{
+  display:inline-flex;align-items:center;gap:.4rem;cursor:pointer;
+  background:var(--card);border:1px solid var(--line);color:var(--ink-2);
+  padding:.42rem .72rem;border-radius:9px;font-size:.8rem;font-weight:500;
+  transition:background .15s,border-color .15s,color .15s;white-space:nowrap;
+}
+.btn:hover{background:var(--paper-2);border-color:var(--teal-2);color:var(--teal-ink)}
+.btn.primary{background:var(--teal);border-color:var(--teal);color:#fff}
+.btn.primary:hover{background:var(--teal-ink);border-color:var(--teal-ink);color:#fff}
+[data-theme="dark"] .btn.primary:hover{color:#06231f}
+.btn.icon{padding:.42rem .55rem}
+#navToggle{display:none}
+
+/* ---------------------------------------------------------------- layout */
+.shell{
+  max-width:1440px;margin:0 auto;display:grid;
+  grid-template-columns:326px minmax(0,1fr);align-items:start;
+}
+.sidebar{
+  position:sticky;top:var(--topbar);height:calc(100vh - var(--topbar));
+  overflow-y:auto;overscroll-behavior:contain;
+  border-right:1px solid var(--line);padding:1.1rem .9rem 3rem;
+}
+.side-head{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:.8rem .85rem;margin-bottom:1rem;box-shadow:0 1px 2px rgba(16,24,40,.05);
+}
+.side-head .lbl{
+  font-size:.66rem;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;
+}
+.side-head p{margin:.35rem 0 0;font-size:.75rem;color:var(--muted);line-height:1.5}
+.nav-group{margin-bottom:1.05rem}
+.nav-group > h3{
+  font-family:var(--sans);font-size:.68rem;text-transform:uppercase;letter-spacing:.14em;
+  color:var(--muted);font-weight:700;display:flex;justify-content:space-between;
+  align-items:center;gap:.5rem;padding:0 .35rem .35rem;border-bottom:1px solid var(--line-2);
+  margin-bottom:.4rem;
+}
+.nav-group > h3 .cnt{font-weight:600;letter-spacing:0;color:var(--faint);font-size:.7rem}
+.nav-list{list-style:none;margin:0;padding:0}
+.nav-list li{margin:0}
+.nav-link{
+  display:flex;gap:.55rem;align-items:flex-start;width:100%;text-align:left;
+  background:transparent;border:0;border-radius:9px;padding:.34rem .4rem;cursor:pointer;
+  color:var(--ink-2);font-size:.83rem;line-height:1.35;
+}
+.nav-link:hover{background:var(--paper-2)}
+.nav-link .num{
+  font-family:var(--serif);font-size:.78rem;color:var(--faint);
+  min-width:1.35rem;padding-top:.06rem;font-variant-numeric:tabular-nums;
+}
+.nav-link .txt{flex:1;min-width:0}
+.nav-link[aria-current="true"]{background:var(--teal-soft);color:var(--teal-ink);font-weight:600}
+.nav-link[aria-current="true"] .num{color:var(--teal)}
+.side-foot{
+  margin-top:1rem;padding:.7rem .75rem;border:1px dashed var(--line);
+  border-radius:12px;font-size:.74rem;color:var(--muted);line-height:1.55;
+}
+.side-foot kbd{
+  font-family:var(--mono);font-size:.68rem;background:var(--card);
+  border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:.05rem .3rem;color:var(--ink-2);
+}
+
+/* ---------------------------------------------------------------- document */
+main{padding:1.8rem clamp(1rem,3.5vw,3.2rem) 6rem;min-width:0}
+.doc-head{margin-bottom:2.2rem;max-width:70ch}
+.doc-head .eyebrow{
+  font-size:.66rem;text-transform:uppercase;letter-spacing:.2em;color:var(--teal);font-weight:700;
+}
+.doc-head h1{font-size:clamp(1.7rem,3.4vw,2.4rem);line-height:1.18;margin:.45rem 0 .5rem}
+.doc-head .byline{font-family:var(--serif);font-size:1.08rem;color:var(--ink-2)}
+.doc-head .lede{margin-top:.9rem;color:var(--ink-2);font-size:.98rem;line-height:1.7}
+.q{
+  max-width:74ch;padding-top:1.6rem;margin-top:1.6rem;border-top:1px solid var(--line);
+  scroll-margin-top:calc(var(--topbar) + 14px);
+}
+.q:first-of-type{border-top:0;margin-top:0}
+.qhead{display:flex;gap:.8rem;align-items:center;flex-wrap:wrap;margin-bottom:.35rem}
+.qnum{
+  font-family:var(--serif);font-size:1.5rem;line-height:1;color:var(--teal);
+  opacity:.9;font-variant-numeric:tabular-nums;
+}
+.chip{
+  font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700;
+  padding:.18rem .55rem;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:var(--card);
+}
+.chip.teal{background:var(--teal-soft);border-color:transparent;color:var(--teal-ink)}
+.qtitle{font-size:1.28rem;line-height:1.32;margin:.1rem 0 1rem}
+.prose{font-size:1rem;line-height:1.72;color:var(--ink-2);max-width:70ch}
+.prose p{margin:0 0 .85rem}
+.prose p:last-child{margin-bottom:0}
+.prose strong{color:var(--ink);font-weight:650}
+.prose code{
+  font-family:var(--mono);font-size:.86em;background:var(--paper-2);
+  border:1px solid var(--line-2);border-radius:5px;padding:.05em .32em;color:var(--teal-ink);
+}
+.answer{margin-bottom:1.1rem}
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:1rem 1.1rem;margin:0 0 1.1rem;box-shadow:var(--shadow-m);
+}
+.card > header{
+  display:flex;align-items:center;gap:.6rem;justify-content:space-between;
+  margin-bottom:.8rem;flex-wrap:wrap;
+}
+.sec-label{
+  font-family:var(--sans);font-size:.66rem;text-transform:uppercase;letter-spacing:.15em;
+  font-weight:700;color:var(--muted);display:flex;align-items:center;gap:.5rem;
+}
+.sec-label::after{content:"";flex:1;height:1px;background:var(--line-2);min-width:20px}
+.codehead{
+  display:flex;justify-content:space-between;align-items:center;gap:.6rem;
+  font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);
+  font-weight:700;margin-bottom:.4rem;
+}
+pre{
+  margin:0;background:var(--paper-2);border:1px solid var(--line);border-radius:11px;
+  padding:.85rem 1rem;overflow-x:auto;font-family:var(--mono);font-size:.8rem;line-height:1.6;
+  color:var(--ink-2);max-width:100%;
+}
+pre code{background:none;border:0;padding:0;color:inherit;font-size:inherit}
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:11px}
+table{border-collapse:collapse;width:100%;font-size:.85rem;min-width:460px}
+th,td{text-align:left;padding:.5rem .7rem;border-bottom:1px solid var(--line-2);vertical-align:top}
+th{background:var(--paper-2);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+td code{font-family:var(--mono);font-size:.86em;color:var(--teal-ink)}
+.flow{display:flex;flex-wrap:wrap;gap:.4rem;align-items:stretch;margin:.2rem 0 0}
+.flow .node{
+  background:var(--paper-2);border:1px solid var(--line);border-radius:10px;
+  padding:.45rem .7rem;font-size:.79rem;color:var(--ink-2);flex:1 1 150px;min-width:0;
+}
+.flow .node b{display:block;color:var(--teal-ink);font-size:.8rem}
+.flow .arrow{align-self:center;color:var(--faint);font-size:.9rem}
+.flow-note{margin:.7rem 0 0;font-size:.9rem;color:var(--ink-2);line-height:1.65}
+
+/* ---------------------------------------------------------------- delivery */
+.delivery{
+  max-width:74ch;margin-top:2.6rem;padding:1.5rem 1.6rem 1.35rem;
+  border:1px solid var(--line);border-radius:var(--radius);
+  background:linear-gradient(180deg,var(--card),var(--paper-2));
+  box-shadow:var(--shadow-m);scroll-margin-top:calc(var(--topbar) + 14px);
+}
+.delivery .eyebrow{
+  font-size:.66rem;text-transform:uppercase;letter-spacing:.2em;color:var(--teal);font-weight:700;
+}
+.delivery h2{font-size:1.3rem;margin:.4rem 0 .6rem}
+.delivery .lede{color:var(--ink-2);font-size:.95rem;line-height:1.7;max-width:70ch}
+.delivery-grid{display:grid;gap:.8rem;margin-top:1.15rem}
+.delivery-card{
+  background:var(--card);border:1px solid var(--line);border-radius:11px;padding:.85rem .95rem;
+}
+.delivery-card h3{
+  font-family:var(--sans);font-size:.7rem;text-transform:uppercase;letter-spacing:.13em;
+  color:var(--muted);font-weight:700;margin:0 0 .45rem;
+}
+.delivery-card p{margin:0 0 .55rem;font-size:.88rem;line-height:1.65;color:var(--ink-2)}
+.delivery-card p:last-child{margin-bottom:0}
+.delivery-links{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.7rem}
+.delivery-links a{
+  font-size:.77rem;text-decoration:none;border:1px solid var(--line);border-radius:999px;
+  padding:.28rem .75rem;color:var(--teal-ink);background:var(--teal-soft);
+}
+.delivery-links a:hover{border-color:var(--teal-2)}
+.delivery-note{
+  margin:1.15rem 0 0;padding-top:.9rem;border-top:1px solid var(--line-2);
+  font-size:.86rem;color:var(--muted);line-height:1.65;
+}
+
+/* toast */
+.toast{
+  position:fixed;left:50%;bottom:24px;transform:translate(-50%,16px);
+  background:var(--ink);color:var(--paper);padding:.6rem 1rem;border-radius:999px;
+  font-size:.85rem;box-shadow:var(--shadow-m);opacity:0;pointer-events:none;
+  transition:opacity .18s,transform .18s;z-index:90;max-width:90vw;text-align:center;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.err{background:#b3261e;color:#fff}
+
+/* mobile */
+@media (max-width:980px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  #navToggle{display:inline-flex}
+  .sidebar{
+    position:fixed;top:var(--topbar);left:0;width:min(88vw,340px);z-index:70;
+    background:var(--paper);transform:translateX(-102%);transition:transform .22s ease;
+    box-shadow:var(--shadow-m);
+  }
+  body.nav-open .sidebar{transform:none}
+  body.nav-open::after{
+    content:"";position:fixed;inset:var(--topbar) 0 0 0;background:rgba(0,0,0,.35);z-index:65;
+  }
+  .brand .title{font-size:.92rem}
+  .searchbox{flex:1 1 120px}
+}
+@media (max-width:560px){
+  .topbar-in{flex-wrap:wrap;row-gap:.45rem;padding:.5rem .75rem}
+  .brand{order:1;flex:1 1 100%}
+  .searchbox{order:3;flex:1 1 auto}
+  .tb-actions{order:2}
+  .qtitle{font-size:1.12rem}
+  .card{padding:.85rem .8rem}
+  .prose{font-size:.96rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+}
+@media print{
+  .topbar,.sidebar,.toast{display:none!important}
+  .shell{grid-template-columns:1fr}
+  .card{box-shadow:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#doc">Skip to content</a>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <button class="btn icon" id="navToggle" aria-expanded="false" aria-controls="sidebar" title="Open or close the question list">☰</button>
+    <div class="brand">
+      <span class="kicker">Engineering Questionnaire</span>
+      <span class="title">Senior Full Stack Engineer · Backend-focused</span>
+    </div>
+    <div class="searchbox">
+      <label for="search" style="position:absolute;left:-9999px">Search questions</label>
+      <input id="search" type="search" placeholder="Search questions" autocomplete="off" spellcheck="false">
+      <span class="hint">/</span>
+    </div>
+    <div class="tb-actions">
+      <a class="btn" id="deliveryLink" href="#delivery" title="Delivery and CI/CD contract">Source &amp; CI/CD</a>
+      <a class="btn" id="llmLink" href="senior-fullstack-engineering-answers.md" title="Plain Markdown · all 21 answers">LLM-friendly version</a>
+      <button class="btn" id="exportBtn" title="Download the whole questionnaire as Markdown">Export Markdown</button>
+      <button class="btn icon" id="themeBtn" title="Toggle light or dark theme (press D)" aria-label="Toggle light or dark theme">◐</button>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="sidebar" id="sidebar" aria-label="Question navigation">
+    <div class="side-head">
+      <span class="lbl">Contents</span>
+      <p>21 questions, answered in order. Every answer is personal; the code snippets are illustrative examples, not production code.</p>
+    </div>
+    <nav id="nav"></nav>
+    <div class="side-foot">
+      <strong style="color:var(--ink)">Shortcuts</strong><br>
+      <kbd>/</kbd> search · <kbd>D</kbd> theme · <kbd>Esc</kbd> close the list<br><br>
+      <strong style="color:var(--ink)">Plain Markdown · all 21 answers</strong><br>
+      <a href="senior-fullstack-engineering-answers.md">Open the LLM-friendly version</a> — the same
+      questionnaire as a static Markdown file, readable without JavaScript.<br><br>
+      <strong style="color:var(--ink)">Source &amp; CI/CD</strong><br>
+      <a href="#delivery">Read the delivery appendix</a> — the public repository, what the public
+      pipeline validates, and what the private pipeline promotes.<br>
+      <a href="https://github.com/nklaveren/matw-playbook" rel="noopener noreferrer" target="_blank">Public repository</a> ·
+      <a href="https://github.com/nklaveren/matw-playbook/actions/workflows/site.yml" rel="noopener noreferrer" target="_blank">workflow runs</a><br><br>
+      <strong style="color:var(--ink)">Download</strong><br>
+      “Export Markdown” generates the same file locally in your browser
+      (<code>senior-fullstack-engineering-answers.md</code>). It works offline, straight from this file.
+    </div>
+  </aside>
+
+  <main id="main" tabindex="-1">
+    <div id="doc"></div>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ================================================================ data
+     Single source of truth: the same array drives the page and the
+     Markdown export. Answers are plain text (no markup), so the export
+     stays clean Markdown. */
+  var QUESTIONS = [
+    {
+      id: 1, cat: "go", catName: "Backend and Go",
+      nav: "Concurrency in Go and goroutine leaks",
+      q: "How do you handle concurrency in Go? How do you avoid goroutine leaks?",
+      answer: `Concurrency in Go is structured by convention: every goroutine has an owner and a lifetime. Three rules.
+
+First, the context is the cancellation channel. I pass ctx as the first argument, derive children with context.WithTimeout, and always defer cancel() right after the call. Cancellation is cooperative: nothing is interrupted unless the goroutine selects on ctx.Done(), so every blocking call has to be context aware.
+
+Second, concurrency is bounded. An unbounded fan-out is a self-inflicted outage, so I cap in-flight work with a semaphore or errgroup.SetLimit, matching what the dependency can absorb.
+
+Third, goroutines have an owner and the owner waits: every WaitGroup or errgroup is joined before the function returns, and the goroutine that opened a resource closes it.
+
+A leak is a goroutine blocked forever, on a channel nobody reads, on a mutex, on a network read that never returns. So every select has a ctx.Done() case, sends happen inside a select, and I keep goroutine count as a metric, because a leak shows up as a count that only grows.
+
+In the agent platform I built, a watch-mode reload mid-job left a job finished but hung, and the runner marked it failed. The fix was architectural: isolating each job in its own process, which became an architecture decision record rather than a patch.`,
+      code: {
+        lang: "go",
+        body: `func fetchAll(ctx context.Context, ids []string, f func(context.Context, string) (Item, error)) ([]Item, error) {
+\tg, gctx := errgroup.WithContext(ctx)
+\tg.SetLimit(8) // concurrency limit: never more than 8 calls at a time
+
+\tout := make([]Item, len(ids))
+\tfor i, id := range ids {
+\t\ti, id := i, id
+\t\tg.Go(func() error {
+\t\t\t// every blocking call is ctx-aware: cancellation is cooperative
+\t\t\titem, err := f(gctx, id)
+\t\t\tif err != nil {
+\t\t\t\treturn fmt.Errorf("fetch %s: %w", id, err)
+\t\t\t}
+\t\t\tout[i] = item
+\t\t\treturn nil
+\t\t})
+\t}
+\t// the owner waits: no goroutine outlives this function
+\tif err := g.Wait(); err != nil {
+\t\treturn nil, err
+\t}
+\treturn out, nil
+}
+
+// a send that cannot deadlock: no blocking channel send
+select {
+case jobs <- job:
+case <-ctx.Done():
+\treturn ctx.Err()
+}`
+      }
+    },
+    {
+      id: 2, cat: "go", catName: "Backend and Go",
+      nav: "Errors in Go: values, not exceptions",
+      q: "How do you handle errors in Go, and how does that differ from exceptions?",
+      answer: `In Go an error is a value, not an exception. There is no throw, no stack unwinding, no catch: the function returns an error and the caller decides. That is the whole difference with exceptions, and it is a design decision.
+
+Because an error is a value, it can be inspected, wrapped, compared and tested. I use three levels. Sentinels, like sql.ErrNoRows or my own ErrNotFound, for the cases a caller branches on. Typed errors, like a ValidationError carrying the field and the reason, when the caller needs details to build a 422. And wrapped errors for context: fmt.Errorf with %w, so the original cause is not lost.
+
+I check errors immediately, never compare error strings, and at the boundary, usually the HTTP handler, I translate the error into a status with errors.Is and errors.As, log it once with the request id, and turn anything unrecognised into a generic 500 with the detail only in the logs.
+
+A panic is a bug, not control flow. I use recover in a defer, and I know the rule: recover only catches a panic in the same goroutine, so a panic in a child goroutine takes the process down, which is often what I want, with the supervisor restarting it.
+
+And I wrap the error that adds context while returning the cause, so five layers deep still answer what actually failed, without a log line per layer.`,
+      code: {
+        lang: "go",
+        body: `var (
+\tErrNotFound = errors.New("not found")
+\tErrConflict  = errors.New("conflict")
+)
+
+// typed error: carries the detail the caller needs
+type ValidationError struct {
+\tField  string
+\tReason string
+}
+
+func (e *ValidationError) Error() string { return e.Field + ": " + e.Reason }
+
+// service layer: context + preservation of the cause
+if err != nil {
+\treturn fmt.Errorf("load invoice %s: %w", id, err)
+}
+
+// HTTP boundary: status decision and a single log line
+switch {
+case errors.Is(err, sql.ErrNoRows), errors.Is(err, ErrNotFound):
+\treturn nil, writeErr(w, http.StatusNotFound, "invoice not found")
+case errors.As(err, &verr):
+\treturn nil, writeErr(w, http.StatusUnprocessableEntity, verr.Error())
+case errors.Is(err, ErrConflict):
+\treturn nil, writeErr(w, http.StatusConflict, "conflict")
+default:
+\t// detail in the log, generic response
+\tlogger.Error("invoice request failed", "err", err)
+\treturn nil, writeErr(w, http.StatusInternalServerError, "internal error")
+}`
+      }
+    },
+    {
+      id: 3, cat: "go", catName: "Backend and Go",
+      nav: "Idempotent POST endpoint",
+      q: "How would you design a POST endpoint so that sending the same request twice does not create duplicates?",
+      answer: `The guarantee has to come from the database, not from application logic, because two concurrent requests can both pass an application-level check. So the client sends an idempotency key, a UUID per logical operation, and I store it with a unique constraint scoped by tenant, plus a hash of the request body.
+
+The flow is one transaction. I insert the key with the hash and an in-progress status using insert on conflict do nothing returning. If it returns a row, I own the operation: I do the business write and store the response in the same row and commit. If it returns nothing, the other request won: in PostgreSQL my insert blocks on the unique index while the other transaction is open, and returns empty only because the other one committed.
+
+Then I re-read the row in a new statement, which under read committed sees the committed data. Done: I replay the stored response. Still in progress: the other request has not finished, so I answer 409. Same key, different hash: the client reused the key with another payload, that is 422.
+
+Two things people forget. The unique constraint is the real lock, and a unique violation would abort my transaction, which is why the insert uses on conflict do nothing. And a transaction does not make external effects idempotent: a payment goes out through an outbox with a deduplicating consumer, or the downstream call receives the same key.`,
+      code: {
+        lang: "sql",
+        body: `create table idempotency_keys (
+  tenant_id       bigint      not null,
+  idempotency_key text        not null,
+  request_hash    bytea       not null,
+  status          text        not null default 'in_progress', -- in_progress | done
+  response_status int,
+  response_body   jsonb,
+  created_at      timestamptz not null default now(),
+  primary key (tenant_id, idempotency_key)
+);
+
+-- insert that does not abort the transaction on conflict
+insert into idempotency_keys (tenant_id, idempotency_key, request_hash, status)
+values ($1, $2, $3, 'in_progress')
+on conflict (tenant_id, idempotency_key) do nothing
+returning idempotency_key;
+
+-- 0 rows  -> the other request won (this insert waited for its commit)
+-- 1 row   -> I own it: do the business write and store the response
+-- re-read in a NEW statement (read committed sees the other commit):
+select status, response_status, response_body
+from idempotency_keys
+where tenant_id = $1 and idempotency_key = $2;`
+      }
+    },
+    {
+      id: 4, cat: "go", catName: "Backend and Go",
+      nav: "Offset versus cursor pagination",
+      q: "Offset pagination vs cursor (keyset) pagination: when would you use each?",
+      answer: `Both paginate, but they fail differently. Offset pagination asks the database to count and discard everything before the offset, so the cost grows with the depth of the page, and it shifts under the user's feet: if a row is inserted while the user is on page three, that row shows up twice or is skipped, because the offset is a position, not a place. Offset is fine for small lists, page-number navigation and exact counts.
+
+Keyset, or cursor pagination, encodes the last row the user saw. I order by a deterministic composite key, for example created_at and id, and the predicate is a tuple comparison, where created_at and id are less than the cursor values, with a matching composite index on tenant_id, created_at, id. The database seeks in that index and reads only the rows it returns, so the work no longer grows with depth. The id tiebreaker makes the ordering total, which stops rows with the same timestamp from repeating or disappearing between pages.
+
+Two honest caveats. It is not a snapshot: if the sort key is updated or the row deleted, a page can still skip or repeat, and a strict snapshot needs an append-only or versioned table. And you lose random access, so no page 57, and an exact count needs a separate query; I usually return a has_more flag from limit plus one rows.
+
+In the API the cursor is opaque base64, validated server side, because it is client input.`,
+      code: {
+        lang: "sql",
+        body: `-- keyset: seek in the index, work no longer grows with depth
+select id, created_at, title
+from invoices
+where tenant_id = $1
+  and (created_at, id) < ($2, $3)   -- cursor = last tuple of the previous page
+order by created_at desc, id desc
+limit 50;
+
+create index idx_invoices_tenant_created_id
+  on invoices (tenant_id, created_at desc, id desc);
+
+-- offset: acceptable for small lists; the cost grows with depth
+select id, created_at, title
+from invoices
+where tenant_id = $1
+order by created_at desc, id desc
+limit 50 offset 5000;`
+      }
+    },
+    {
+      id: 5, cat: "go", catName: "Backend and Go",
+      nav: "Typed languages and ramping up on Go",
+      q: "(Only if no production Go) What statically typed language do you use, and how would you ramp up on Go?",
+      answer: `Since the question is conditional, let me answer it directly: I have about a year of Go in production, at BTG Pactual, in 2021 and 2022. That is the whole Go history I claim. My production work is mostly .NET and TypeScript, and Go shows up today as the worker in the agent platform I maintain, with the same three disciplines: bounded concurrency, cooperative cancellation, and a queue with claim and heartbeat.
+
+If you want to know how I would ramp someone else onto Go, my plan is short. The standard library first: context, errors, sync and the io interfaces are where the work is, because Go hands you the pieces and expects you to assemble them, and a framework hides exactly the parts that matter. Concurrency on day one: a bounded worker pool with cancellation, because ownership and cancellation are the two things you cannot learn from syntax. And review by someone who reads Go, because the compiler catches type errors but not ownership errors.
+
+The rule I give people is simple: do not port your old abstractions. Go code that feels like C# is worse than Go code that feels like Go.`,
+      code: {
+        lang: "go",
+        body: `// worker pool with cancellation and a clean shutdown
+func Run(ctx context.Context, tasks []Task) error {
+\tjobs := make(chan Task) // unbuffered: no unbounded queue in memory
+\tg, gctx := errgroup.WithContext(ctx)
+
+\t// The concurrency limit is the number of workers (8).
+\t// SetLimit is not used here: with the producer in the same group, a
+\t// limit equal to the worker count would be fully occupied by the
+\t// workers and the producer would wait for a slot -> deadlock.
+\tfor i := 0; i < 8; i++ {
+\t\tg.Go(func() error {
+\t\t\tfor {
+\t\t\t\tselect {
+\t\t\t\tcase <-gctx.Done():
+\t\t\t\t\treturn gctx.Err()
+\t\t\t\tcase t, ok := <-jobs:
+\t\t\t\t\tif !ok {
+\t\t\t\t\t\treturn nil
+\t\t\t\t\t}
+\t\t\t\t\tif err := t.Run(gctx); err != nil {
+\t\t\t\t\t\treturn err
+\t\t\t\t\t}
+\t\t\t\t}
+\t\t\t}
+\t\t})
+\t}
+
+\tg.Go(func() error {
+\t\tdefer close(jobs) // whoever sends is who closes
+\t\tfor _, t := range tasks {
+\t\t\tselect {
+\t\t\tcase jobs <- t:
+\t\t\tcase <-gctx.Done():
+\t\t\t\treturn gctx.Err()
+\t\t\t}
+\t\t}
+\t\treturn nil
+\t})
+
+\treturn g.Wait() // the owner waits
+}`
+      }
+    },
+    {
+      id: 6, cat: "sql", catName: "SQL and PostgreSQL",
+      nav: "Investigating a slow query on a huge table",
+      q: "A query on a table with 50 million rows became slow. Walk me through how you investigate it.",
+      answer: `I start by bounding the problem, because slow is not an investigation. Is it one query or all of them, is it a regression after a release, and how much of the latency is actually in the database? I look at the slow query log or pg_stat_statements sorted by total time, to find the queries that really hurt.
+
+Then I look at the plan, with EXPLAIN ANALYZE and BUFFERS, because the gap between estimated and actual row counts is usually where the story is. I am careful about where I run it: EXPLAIN ANALYZE executes the query, so in production I run it inside a transaction with a statement timeout and a lock timeout, on a read-only statement, and I roll back. On a mutating query I reproduce it on a copy with similar volume.
+
+What I look for: a sequential scan that used to be an index scan, statistics that went stale after a bulk load, an index that exists but is never used, bloat with autovacuum falling behind, and lock waits, where the query is queued behind another transaction.
+
+Then I fix it and prove it: an index matching the predicate and the sort, a rewrite that avoids the expensive part, or batching. I compare the plan and check the p95 of that endpoint before and after, then close with prevention: an alert on endpoint latency and a query budget in CI.`,
+      code: {
+        lang: "sql",
+        body: `-- 1) who is burning the time
+select calls, mean_exec_time, total_exec_time, query
+from pg_stat_statements
+where mean_exec_time > 100
+order by total_exec_time desc
+limit 20;
+
+-- 2) real plan (WARNING: EXPLAIN ANALYZE EXECUTES the query)
+begin;
+set local statement_timeout = '2s';
+set local lock_timeout = '1s';
+explain (analyze, buffers) select ... ;   -- read only
+rollback;
+
+-- 3) statistics and autovacuum
+select relname, n_live_tup, n_dead_tup, last_analyze, last_autoanalyze, last_autovacuum
+from pg_stat_user_tables
+where relname = 'invoices';
+
+-- 4) indexes: do they exist, are they used?
+select indexrelname, idx_scan, pg_size_pretty(pg_relation_size(indexrelid))
+from pg_stat_user_indexes
+where relname = 'invoices'
+order by idx_scan;
+
+-- who is blocking whom
+select blocked.pid, blocking.pid, left(blocked.query, 120) as blocked_query
+from pg_stat_activity blocked
+join pg_stat_activity blocking
+  on blocking.pid = any(pg_blocking_pids(blocked.pid));`
+      }
+    },
+    {
+      id: 7, cat: "sql", catName: "SQL and PostgreSQL",
+      nav: "Two requests updating one record",
+      q: "Two requests try to update the same record at the same time. How do you prevent inconsistent data?",
+      answer: `I separate two different problems. The first is preventing the database from holding an invalid state, and that is the job of constraints: not null, check, foreign keys and unique indexes. Those hold no matter what the application code does, so they are my first line of defence.
+
+The second is preventing a lost update, where two requests read the same row and the second write silently overwrites the first. For that I use optimistic concurrency by default: the table has a version column, the update carries the version the client read, and I check how many rows it affected. One row means I won the race; zero means somebody else wrote first, so I return a conflict with the current state instead of overwriting it.
+
+When the read-modify-write is long, the row is hot, or it spans several rows, I switch to pessimistic locking: select for update inside a transaction, which serialises the writers. I keep that transaction short and never call an external system inside it, because a transaction waiting on the network holds locks for a long time.
+
+I also prefer atomic statements: one update that increments a counter, instead of reading the value and writing it back. That removes the race instead of detecting it. Isolation is the last dial: read committed plus row locks is enough for most cases, and I move to serializable only with a genuine write-skew risk, accepting the retry semantics.`,
+      code: {
+        lang: "sql",
+        body: `alter table invoices add column version bigint not null default 0;
+
+-- the write only happens if the version is still the one the client read
+update invoices
+set status = $2,
+    amount_cents = $3,
+    version = version + 1
+where id = $1
+  and version = $4;   -- expected version
+
+-- in Go: rows affected == 0 means "somebody else won"
+-- tag.RowsAffected() == 0  ->  ErrVersionConflict (409 with current state)
+
+-- a business rule that is unique only in part of the domain
+create unique index uniq_invoice_open_per_customer
+  on invoices (tenant_id, customer_id)
+  where status in ('open', 'overdue');`
+      }
+    },
+    {
+      id: 8, cat: "sql", catName: "SQL and PostgreSQL",
+      nav: "Schema migration without downtime",
+      q: "How do you run a schema migration on a large table without downtime?",
+      answer: `I use expand, migrate, contract, and I never mix the three phases in the same deploy.
+
+Expand is additive and backwards compatible. I add the new column as nullable, because a volatile default rewrites the whole table, while a non-volatile default is metadata only in modern Postgres. I create the index with create index concurrently, which cannot run inside a transaction and does not block writes while it runs. I add the constraint as not valid, which takes a brief lock and does not scan the table, and the application writes both columns, so old and new code coexist during the window.
+
+Migrate is the backfill. Small batches, each in its own transaction, walking the table with a keyset scan so I do not hold a long range of locks, with a pause between batches. In every batch I set lock_timeout and statement_timeout, so a blocked batch fails fast instead of piling up behind production. I watch replica lag and WAL volume, and I let the concurrent index finish, because the backfill gets much faster once the index exists.
+
+Contract comes last: after the code stopped reading the old column, I validate the constraint, which takes a share-update-exclusive lock without blocking reads or writes, and drop the old column.
+
+One caveat about rollback: while the old column is there, undoing is easy. After the drop, the data is gone and the rollback is a restore, not a migration.`,
+      code: {
+        lang: "sql",
+        body: `-- EXPAND: new nullable column (a volatile default would rewrite the table)
+alter table invoices add column total_cents bigint;
+
+-- index without blocking writes: OUTSIDE a transaction block
+create index concurrently idx_invoices_total_cents on invoices (total_cents);
+
+-- new constraint without validation (supported for FK and CHECK)
+alter table invoices add constraint invoices_total_check
+  check (total_cents >= 0) not valid;
+
+-- MIGRATE: one batch (repeat in separate transactions, with a pause between)
+begin;
+set local lock_timeout = '1s';
+set local statement_timeout = '30s';
+update invoices
+set total_cents = amount_cents
+where id in (
+  select id from invoices
+  where total_cents is null and id > :last_id   -- keyset scan
+  order by id
+  limit 5000
+);
+commit;
+
+-- real validation: SHARE UPDATE EXCLUSIVE, does not block reads or writes
+alter table invoices validate constraint invoices_total_check;
+
+-- CONTRACT (only after the code stopped reading the old column)
+-- WARNING: DROP COLUMN needs ACCESS EXCLUSIVE even though it is metadata.
+-- Use lock_timeout and a low-traffic window.
+set lock_timeout = '1s';
+alter table invoices drop column amount_cents;`
+      }
+    },
+    {
+      id: 9, cat: "fe", catName: "Frontend (React / TypeScript)",
+      nav: "Server state in React",
+      q: "How do you manage server data in a React app, for example a list that the user can edit?",
+      answer: `I treat server data and client data as two different things. Server data lives in a query cache, and I use TanStack Query for that, because the problems of server data are caching, staleness, retries and deduplication, and those are not the problems of a state container. Client state, meaning form fields, filters and UI flags, stays in the component or in a form library. I never mirror server data into a global store: the moment you copy it there, you own two sources of truth.
+
+For a list the user can edit, the shape is one query for the list and one mutation per operation. The mutation does the optimistic update properly: cancel the in-flight queries for that key, snapshot the cache, write the new value into the cache, return the snapshot. If the request fails I restore the snapshot, so the UI rolls back. When it settles I invalidate the list query, so the server stays the source of truth.
+
+The concurrency part matters more than the optimistic part. Two edits to the same row can race, so I scope the mutation per item: writes for that item serialise, while different rows update in parallel. And when the server detects a real conflict it answers 409, and I invalidate and show the current value, because silently overriding the user's edit is worse than telling them.`,
+      code: {
+        lang: "typescript",
+        body: `const qc = useQueryClient();
+
+const rename = useMutation({
+  mutationFn: (v: { id: string; name: string }) =>
+    api.patch(\`/invoices/\${v.id}\`, { name: v.name }),
+
+  onMutate: async (v) => {
+    // 1) drop in-flight responses that would come back with old data
+    await qc.cancelQueries({ queryKey: ['invoices'] });
+    // 2) snapshot, so the update can be reverted
+    const previous = qc.getQueryData<Invoice[]>(['invoices']);
+    // 3) optimistic patch
+    qc.setQueryData<Invoice[]>(['invoices'], (old) =>
+      old?.map((inv) => (inv.id === v.id ? { ...inv, name: v.name } : inv)));
+    return { previous };
+  },
+  onError: (_err, _vars, ctx) => {
+    qc.setQueryData(['invoices'], ctx?.previous);   // rollback
+  },
+  onSettled: () => {
+    qc.invalidateQueries({ queryKey: ['invoices'] }); // reconcile with the server
+  },
+});
+
+// scope per item: two edits of the same record do not race
+rename.mutate({ id, name }, { scope: { id } });`
+      }
+    },
+    {
+      id: 10, cat: "arc", catName: "Architecture, cloud and events",
+      nav: "Kubernetes versus managed AWS services",
+      q: "When would you deploy a service on Kubernetes and when would you use a managed AWS service like Lambda, ECS Fargate or SQS?",
+      answer: `My default is the least operational surface that still meets the requirements, and the decision is driven by the shape of the workload, not by fashion.
+
+Lambda fits spiky, event-driven work: short tasks, queue consumers, scheduled jobs, anything whose volume is mostly idle. The trade-offs are cold starts, which matter on latency-sensitive paths, and the limits on the request shape. SQS and SNS are the data plane I reach for first when a component needs decoupling, because a queue gives me buffering, retry with visibility timeout and backpressure without running a broker.
+
+ECS Fargate fits containers that run continuously: long-running services, workers, anything I ship as a container, with modest operational effort and predictable cost.
+
+Kubernetes is worth it when the workload needs something the managed runtime does not give me: custom networking and policies, a shared platform for several teams, specialized scheduling such as GPUs, or the same behaviour across environments. The cost is real and I know it from running infrastructure before I became a developer: somebody owns the control plane, the upgrades, ingress, autoscaling, secrets and the on-call for the platform itself. Managed Kubernetes removes the control plane, not the platform work.
+
+So the data plane is usually managed, and I reach for Kubernetes only when the workload shape justifies it. In one system I built I ran a small Kubernetes cluster because the workers needed strict network isolation and outbound-only access.`,
+      flow: {
+        title: "Decision matrix (illustrative)",
+        kind: "table",
+        head: ["Workload", "Typical choice", "Why", "Main caveat"],
+        rows: [
+          ["Spiky events, mostly idle", "Lambda", "pay per execution, no server to run", "cold start on a critical path"],
+          ["Continuously running container", "ECS Fargate", "ships what is already a container, predictable cost", "network and scaling operations"],
+          ["Asynchronous decoupling", "SQS / SNS", "buffering, retry, backpressure", "visibility timeout, idempotent consumer"],
+          ["Custom networking or policies, GPUs, many teams", "Kubernetes (EKS or self-managed)", "scheduling and isolation control", "control plane and platform cost"]
+        ]
+      }
+    },
+    {
+      id: 11, cat: "arc", catName: "Architecture, cloud and events",
+      nav: "The N+1 problem in GraphQL",
+      q: "What is the N+1 problem in GraphQL and how do you solve it?",
+      answer: `N plus one is when one query for the top-level resource triggers one additional query per item. A list of a hundred invoices becomes a hundred and one round trips, and the latency of the response becomes the sum of them. It hides well in development with ten records and collapses in production with a few thousand.
+
+The standard fix is batching with DataLoader. The resolver does not hit the database, it asks the loader for the ids it needs. The loader collects the keys across the level of the query tree and, at the end of the tick, runs one query with an any clause and returns the results indexed by key. A hundred invoices then produce one query with an array of ids.
+
+The implementation details are where this goes wrong. The loader instance must be created per request, usually in the context factory: a module-level loader keeps its cache across requests, which leaks data between users and leaks memory. The cache key has to include every argument, and the loader must preserve the order and the length of the keys it was given, including nulls.
+
+The same problem appears as lazy loading inside a resolver, and there the fix is eager loading or the same loader, not a big join, which duplicates parent rows.
+
+Batching treats the symptom, not the abuse, so I add depth and complexity limits and persisted queries.`,
+      code: {
+        lang: "typescript",
+        body: `// one loader per request, created in the context factory
+export function createLoaders(db: Db) {
+  const userById = new DataLoader<string, User>(async (ids) => {
+    // ONE query for the whole level
+    const rows = await db.query(
+      'select id, name from users where id = any($1::text[])', [ids]);
+    const byId = new Map(rows.map((r) => [r.id, r]));
+    // preserve order and length: one result per key, null when missing
+    return ids.map((id) => byId.get(id) ?? null);
+  });
+  return { userById };
+}
+
+// resolver
+users: async (_parent, { ids }, ctx) => {
+  // loadMany triggers ONE batch for the whole level of the query
+  const users = await ctx.loaders.userById.loadMany(ids);
+  return users;
+}`
+      }
+    },
+    {
+      id: 12, cat: "arc", catName: "Architecture, cloud and events",
+      nav: "Database and event consistency with Kafka",
+      q: "If a service publishes events to Kafka, how do you guarantee that the database and the event stay consistent?",
+      answer: `First the honest framing: without a distributed transaction you cannot make the database commit and the Kafka publish one atomic operation, and I would not pay for one. The goal is that no event is lost and that a duplicate never causes damage.
+
+The pattern I use is the transactional outbox. The service writes the business change and a row in an outbox table inside the same database transaction. If the transaction commits, both the change and the intent to publish are durable; if it rolls back, there is no event. That removes the dual-write bug, where the row is committed but the process crashes before publishing.
+
+Then a relay reads the outbox and publishes to Kafka. It claims rows with for update skip locked, so several relays run in parallel without colliding, and marks a row published only after the broker acknowledges. Delivery is at least once: the relay can crash between publishing and marking, and then the event goes out twice. That is only acceptable if the consumer is idempotent: the consumer writes the event id into an inbox table with a unique constraint, in the same transaction as its own state change.
+
+On ordering, Kafka guarantees it only within a partition, so the partition key is the aggregate id, which gives per-entity ordering.
+
+On exactly once, Kafka transactions cover consume-process-produce inside Kafka, not a change in PostgreSQL. For that: outbox plus idempotent consumer.`,
+      code: {
+        lang: "sql",
+        body: `-- outbox: written in the SAME transaction as the business change
+create table outbox (
+  id             bigserial primary key,
+  aggregate_type text        not null,
+  aggregate_id   text        not null,
+  event_type     text        not null,
+  payload        jsonb       not null,
+  created_at     timestamptz not null default now(),
+  published_at   timestamptz
+);
+
+-- partial index: only pending rows are relay candidates
+create index idx_outbox_pending on outbox (id) where published_at is null;
+
+-- consumer inbox: deduplication with a unique constraint
+create table inbox (
+  consumer      text        not null,
+  event_id      bigint      not null,
+  processed_at  timestamptz not null default now(),
+  primary key (consumer, event_id)
+);
+
+-- in the consumer, in the SAME transaction as its state change:
+insert into inbox (consumer, event_id) values ($1, $2)
+on conflict do nothing;
+-- 0 rows => already processed => skip`
+      }
+    },
+    {
+      id: 13, cat: "arc", catName: "Architecture, cloud and events",
+      nav: "Terraform, Ansible and state",
+      q: "Which infrastructure have you managed with Terraform, and how do you handle state?",
+      answer: `Yes, I have used Terraform in production, and Ansible alongside it for the parts that are configuration rather than resources. The resources change per environment, so what I care about is the discipline around them, not a fixed inventory.
+
+On Terraform, the practice I care about is that the environment is described as code, reviewed like code, and that I can read the diff before it is applied.
+
+The state is where teams get hurt, so that is where I focus. My principles: the state never lives in a git repository, it is stored in a remote backend; the state store is encrypted and versioned, so an accidental apply can be rolled back to the previous state; each environment has its own state, through separate backends or a strict convention in the key; concurrent applies are prevented with a lock; and the state stays out of the apply path on a laptop, with plan running in CI on every pull request and apply running from a protected pipeline with short-lived credentials.
+
+For the S3 backend specifically, the setup I would recommend is a dedicated bucket with versioning enabled and server-side encryption, one key per environment, and the native lockfile where the backend and the Terraform version support it. With older versions, a lock table is the equivalent.
+
+With Ansible the rules are different but related: playbooks are idempotent, so running them twice changes nothing; I use modules instead of shell commands, declare the desired state, and use check mode to see what would change before applying.
+
+The principle behind both: infrastructure is code, reviewed like code, and the state of the world is described, never adjusted by hand.`,
+      code: {
+        lang: "hcl",
+        body: `# illustrative backend: remote state, encrypted, versioned, locked
+terraform {
+  backend "s3" {
+    bucket       = "acme-tfstate-prod"
+    key          = "payments/prod.tfstate"
+    region       = "sa-east-1"
+    encrypt      = true          # server-side encryption
+    use_lockfile = true          # native S3 locking (Terraform >= 1.10)
+  }
+}
+
+# the state bucket is versioned, so an accidental apply can be reverted
+resource "aws_s3_bucket" "tfstate" {
+  bucket = "acme-tfstate-prod"
+}
+
+resource "aws_s3_bucket_versioning" "tfstate" {
+  bucket = aws_s3_bucket.tfstate.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+# an example of a managed resource
+resource "aws_sqs_queue" "invoice_events" {
+  name                       = "invoice-events"
+  sqs_managed_sse_enabled   = true
+  visibility_timeout_seconds = 120
+}`
+      }
+    },
+    {
+      id: 14, cat: "qa", catName: "Testing, CI and production",
+      nav: "Testing a Go service with PostgreSQL",
+      q: "How do you test a Go service that talks to PostgreSQL?",
+      answer: `I split the tests in three layers. The pure domain logic, with no I/O, gets fast unit tests, and that is most of the code. The part that touches PostgreSQL gets integration tests against a real PostgreSQL, not a mock, because the value of those tests is exactly the semantics of the database: constraints, isolation, how MVCC behaves, how a deadlock is reported. A mock of SQL would test my mock.
+
+For the integration tests I run a real server in a container, one per test package, and I give each test its own schema, created and dropped in the setup, so parallel tests do not collide. The migrations are the same ones that run in production, applied by the same tool, so the suite fails if a migration is broken, and that is the point.
+
+On isolation I prefer a dedicated schema over the rollback pattern, because rollback only works if the code under test does not commit its own transaction and does not open another connection, which is exactly the code I most want to test.
+
+Concurrency is tested explicitly: I run N goroutines trying the same thing, for example inserting with the same idempotency key, and I assert the invariant, that exactly one row exists. The suite always runs with the race detector, and hot paths get a benchmark with a generous budget, so a query that degrades from ten milliseconds to two seconds is caught before production.`,
+      code: {
+        lang: "go",
+        body: `func TestConcurrentIdempotentInsert(t *testing.T) {
+\tt.Parallel()
+\tdb := testdb.New(t) // real Postgres, exclusive schema per test
+\tctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+\tdefer cancel()
+
+\tconst n = 8
+\tvar wg sync.WaitGroup
+\terrs := make(chan error, n)
+\tfor i := 0; i < n; i++ {
+\t\twg.Add(1)
+\t\tgo func() {
+\t\t\tdefer wg.Done()
+\t\t\tif err := repo.CreateWithIdempotencyKey(ctx, tenantID, "key-1", payload); err != nil {
+\t\t\t\terrs <- err
+\t\t\t}
+\t\t}()
+\t}
+\twg.Wait()
+\tclose(errs)
+\tfor err := range errs {
+\t\tt.Fatalf("unexpected error: %v", err)
+\t}
+
+\t// invariant: exactly one row, despite the 8 attempts
+\tvar count int
+\terr := db.QueryRow(ctx, \`select count(*) from invoices where tenant_id = $1\`, tenantID).Scan(&count)
+\tif err != nil {
+\t\tt.Fatal(err)
+\t}
+\tif count != 1 {
+\t\tt.Fatalf("expected exactly 1 invoice, got %d", count)
+\t}
+}
+
+// CI: go test -race ./...   (the data race detector on every run)`
+      }
+    },
+    {
+      id: 15, cat: "qa", catName: "Testing, CI and production",
+      nav: "On call: latency jumps to 4 seconds",
+      q: "You are on call at 2 a.m. and API latency jumps from 80 ms to 4 seconds. What do you do in the first 15 minutes?",
+      answer: `My priority in the first fifteen minutes is mitigation with evidence, not root cause. I want the impact to stop and I want to explain what I did.
+
+Minutes zero to three, I scope it: all traffic or one route, one tenant, one region? I look at error rate and latency percentiles per route, and whether something changed in the last hour: a deploy, a config change, a dependency, a traffic spike. A deploy that correlates with the onset makes rollback the first candidate, not the last.
+
+Minutes three to seven, I find the bottleneck. Is it the database: slow queries, lock waits, a saturated connection pool? A downstream service timing out, which shows up as latency without errors? Our own process: CPU throttling, garbage collection, a stuck goroutine, a saturated worker pool? I check saturation before anything else, because saturation is what actually kills a service.
+
+Minutes seven to twelve, I mitigate, one change at a time so I know what worked: roll back, scale out, shed load by disabling an expensive feature or serving stale cache, kill a runaway query. Raising timeouts is a last resort, because it moves the pain to the caller.
+
+Minutes twelve to fifteen, I communicate and I write the timeline as I go: what is happening, what I changed, what I am watching.
+
+After stabilisation the work changes: real root cause, the fix, and the alert that would have caught this earlier.`,
+      flow: {
+        title: "The first 15 minutes",
+        kind: "steps",
+        items: [
+          ["0–3 min", "Scope: routes, tenants, recent deploy"],
+          ["3–7 min", "Bottleneck: database, dependency, process, queue"],
+          ["7–12 min", "Mitigate: rollback, scale, shed load, one change at a time"],
+          ["12–15 min", "Communicate and write the timeline"]
+        ],
+        note: "Rule of thumb for on call: prefer the reversible change, and change one thing at a time, otherwise you cannot tell what worked."
+      }
+    },
+    {
+      id: 16, cat: "qa", catName: "Testing, CI and production",
+      nav: "What to monitor in a backend service",
+      q: "What do you monitor in a backend service?",
+      answer: `I start from the user-visible signal and work inwards. For a request-driven service I use RED: rate, errors and duration, with duration as percentiles, not averages. Averages hide the tail, and the tail is what users feel; an average of 80 milliseconds with a p99 of four seconds is broken for a few percent of the traffic.
+
+Around that I track saturation, because saturation is the leading indicator of an outage: CPU and throttling, memory and, for a Go service, heap, GC pause and goroutine count. Then the dependency surfaces: connection pool usage and, more importantly, how long a request waits to acquire a connection, query latency, lock waits, queue depth and the age of the oldest item.
+
+Then the three pillars with a clear division of labour: metrics to detect, traces to localise, structured logs for the detail, with request and trace ids so I can jump from a slow span to the exact lines. I also keep one business metric that reflects user impact, because a drop in successful payments matters more than any CPU graph.
+
+On alerting, I alert on symptoms with an SLO and a burn rate, not on causes.
+
+Two disciplines: labels must be bounded, route template and status code, never a user id or a raw URL with an identifier, because unbounded cardinality takes the monitoring bill down; and every alert has a runbook, because an alert without one starts a conversation from zero at 2 a.m.`,
+      code: {
+        lang: "yaml",
+        body: `# RED: latency percentiles per route (template, never an id)
+- record: http.server.request.duration
+  expr: histogram_quantile(0.99, sum by (le, route) (rate(http_server_request_duration_seconds_bucket[5m])))
+  labels: { service: payments, route: /v1/invoices }
+
+# saturation: waiting for a connection (early indicator of an incident)
+- record: db.pool.acquire_wait
+  expr: histogram_quantile(0.95, sum by (le) (rate(pgx_pool_acquire_wait_seconds_bucket[5m])))
+
+# Go runtime metrics, exported by the process
+- record: go.goroutines
+  expr: go_goroutines{job="payments"}
+- record: go.gc.pause
+  expr: go_gc_duration_seconds{job="payments"}
+
+# alerting on a symptom, with a runbook
+- alert: PaymentsLatencyBurn
+  expr: http_server_request_duration_seconds{job="payments"} > 1.5
+  for: 10m
+  labels: { severity: page }
+  annotations:
+    summary: "latency above the SLO"
+    runbook_url: "https://runbooks/payments-latency"   # every alert has a runbook`
+      }
+    },
+    {
+      id: 17, cat: "ai", catName: "AI in day-to-day work",
+      nav: "Building a feature with an AI coding assistant",
+      q: "Walk me through the last feature you built using an AI coding assistant. What did you delegate and what did you do yourself?",
+      answer: `A representative example is the delivery workflow I built and still run for the engineering team: a developer opens a task, an orchestration layer turns it into a job, coding agents work on it, and the result comes back as a pull request that a human reviews before anything is merged.
+
+What I delegated to the agents is the well-bounded implementation work: scaffolding inside a module, the mechanical parts, tests for code that has already been designed, and refactors with a clear specification.
+
+What I kept is the design and the accountability: interface contracts, the data model, the security boundaries and permissions, the decision of what is worth building, and the review of every pull request. I do not merge code I have not read; if I cannot explain a line in the review, it does not get merged, no matter how confident the assistant sounds.
+
+The workflow also carries an evaluation loop: the agent configurations and prompts are versioned, and I use promptfoo, a third-party evaluation tool, to test changes before they are promoted, so a prompt change is an evaluated change rather than a matter of taste. In a separate repository I keep golden datasets and an evaluation harness for the model behaviour itself.
+
+I distinguish agent evaluation from the test oracle for the code it produces. An oracle defines the expected result independently of the proposed implementation: a business invariant, a known input/output pair, or a regression test that reproduces the failure. My acceptance criterion is not simply that an agent's own tests pass. I want checks derived from the specification, including failure and concurrency cases where relevant, plus human review. An illustrative oracle for an idempotent endpoint is that concurrent retries create exactly one business record and return the same resource. promptfoo evaluates agent behaviour; it does not replace these application-level checks.
+
+One failure taught me the most: some jobs finished their work and then hung, and the runner marked them failed, because a watch-mode reload restarted the process in the middle of a job. The fix was structural, isolating each job in its own process, and it became an architecture decision record rather than a patch.`,
+      flow: {
+        title: "Delivery workflow (illustrative)",
+        kind: "steps",
+        items: [
+          ["1. Task", "a developer opens the task with the specification"],
+          ["2. Orchestration", "the task becomes a job, with state and traces"],
+          ["3. Coding agents", "they work in an isolated workspace with tools and context"],
+          ["4. Pull request", "the result comes back as a pull request"],
+          ["5. Review", "CI plus human review before anything is merged"]
+        ],
+        note: "The design principles I hold to: the agent produces code, a human owns the decision and the merge, and the interfaces, data model and security boundaries are designed, not generated."
+      }
+    },
+    {
+      id: 18, cat: "ai", catName: "AI in day-to-day work",
+      nav: "Correcting AI-assisted work",
+      q: "Tell me about a time you rejected or corrected code generated by AI. What was wrong?",
+      answer: `A concrete related example was correcting an AI-assisted investigation rather than rejecting a generated code patch.
+
+We were losing conversion on checkout, and I used an AI-assisted workflow to search the logs. The first thing the assistant did was query Kibana, and it queried the wrong environment: staging instead of production. That burned about ten minutes before I noticed the target was wrong. I stopped that session, restarted the investigation against the right environment, and in about twenty minutes the assistant located the actual change: a wrongly renamed variable in the frontend, in the code path associated with the fraud classification. That defect was in existing frontend code; the assistant located it, it did not introduce it.
+
+What was wrong with the output is not a bug in the code, it is a wrong premise: it was confidently answering a question about an environment nobody was asking about. My correction was to validate where the evidence comes from before trusting the conclusion.
+
+The criterion I apply to generated code is the same one: a patch has to be read against the failure scenario, not against how confident it sounds. Concretely, for an idempotent write I would not accept a check-then-insert without a unique constraint, because two concurrent requests can both pass the check and create duplicates; the constraint, inside the same transaction, is what makes it safe.`,
+      code: {
+        lang: "go",
+        body: `// check-then-insert without a unique constraint.
+// It passes any sequential test and fails in production under concurrency.
+exists, _ := store.Exists(ctx, tenantID, key)
+if !exists {
+    inv, _ := store.Insert(ctx, tenantID, payload) // both requests insert
+    return inv, nil
+}
+
+// with a unique constraint, in the same transaction:
+// insert into idempotency_keys (tenant_id, idempotency_key, request_hash)
+// values ($1, $2, $3)
+// on conflict (tenant_id, idempotency_key) do nothing;
+// rows affected == 0 -> the other request won: re-read and replay its response`
+      }
+    },
+    {
+      id: 19, cat: "ai", catName: "AI in day-to-day work",
+      nav: "Features built with LLMs and vector search",
+      q: "Have you built any feature using LLMs, for example with LangChain, LangGraph or a vector database?",
+      answer: `Yes, several, and they are separate systems, so let me keep them apart.
+
+The first is my own product, adsmaker, which turns a URL into a video ad: it synthesises the brand, a creative director step produces a scene plan as versioned JSON, and that plan drives text to speech, subtitles and the render. The interesting engineering is multimodal: OCR frame by frame, a vision model reviewing frames, a grid burned into the frames so the model can address a defect by coordinates, and ffmpeg as the image processor. The product is live and still in research and development while I validate use cases.
+
+The second is alethe, a code intelligence RAG. Instead of embedding raw files, it parses real ASTs with Roslyn, the TypeScript compiler and Pyright, builds a semantic graph of the code base, applies a graph convolution to retrieve, and exposes it over REST and MCP. Locally it runs on SQLite with sqlite-vec; in a multi-repo deployment I built the PostgreSQL version with pgvector and Apache AGE. The graph matters because structural relations, who calls whom, are not similarity.
+
+The third is ai-onboard, where I separate an intent engine from a decision engine. The intent engine classifies a support message into a defined intent and extracts structured fields. I evaluate intent classification, extraction and injection guardrails separately rather than treating the whole pipeline as one opaque answer. The model's interpretation is evidence, not permission to execute an action.
+
+For a concrete decision engine, vaga-hunter uses the same separation in a different domain: the LLM extracts structured facts from job descriptions, while a deterministic policy applies eligibility gates and scoring rules. The model does not assign the final score. These are separate projects illustrating a design principle, not a claim that they share one deployed runtime.
+
+The golden datasets in ai-onboard provide reviewed inputs and expected outputs: 363 intent examples across five classes, with a seeded, stratified development/test split of 217/146; separate datasets cover prompt injection and structured extraction. An audit checks overlap between prompt examples and evaluation data to catch leakage. I use development data for iteration and keep test data separate; repeatedly tuning against test results would undermine that separation. Versioned run results include accuracy, per-class precision/recall/F1 and confusion matrices.
+
+For the agents themselves I use promptfoo, a third-party evaluation tool, to test changes in versioned agent configurations and prompts. This is complementary to the separate ai-onboard harness, not a claim that promptfoo runs that repository's datasets. The test oracle is the explicit reference that decides whether an output is acceptable: a reviewed intent label, an expected extracted field, or a deterministic business invariant. For generated code, the oracle must be grounded in the specification rather than merely agreeing with the implementation. A model-generated explanation is not, by itself, proof of correctness.
+
+The common thread is not the framework: the model reads and the code decides.`,
+      code: {
+        lang: "sql",
+        body: `-- multi-repo retrieval with pgvector
+create extension if not exists vector;
+
+create table code_chunks (
+  id         bigserial primary key,
+  repo       text        not null,
+  symbol     text        not null,
+  kind       text        not null,      -- function | class | interface | method
+  embedding  vector(768) not null,
+  source     text        not null
+);
+
+-- similarity search filtered by repository
+select repo, symbol, kind
+from code_chunks
+where repo = $1
+order by embedding <=> $2::vector   -- cosine distance
+limit 20;
+
+-- besides the vector, the graph holds the structural relations:
+-- who calls whom, implements which interface, inherits from what`
+      },
+      flow: {
+        title: "Intent, decisions and verification (illustrative design)",
+        kind: "steps",
+        items: [
+          ["1. Intent engine", "classify the request and extract structured fields"],
+          ["2. Decision engine", "apply explicit business rules, permissions and escalation criteria"],
+          ["3. Golden dataset", "compare predictions with reviewed labels and expected fields"],
+          ["4. promptfoo", "evaluate changes to agent prompts and configurations"],
+          ["5. Test oracle", "check expected outcomes and invariants independently of the implementation"]
+        ],
+        note: "The golden dataset and oracle define what correct means; the evaluation harness measures it. This diagram connects the concepts, not the deployment topology of the separate projects above."
+      }
+    },
+    {
+      id: 20, cat: "own", catName: "Ownership and working with Product",
+      nav: "Owning a workstream from design to production",
+      q: "Tell me about a workstream you owned from design to production without supervision. How did you break it down and prioritize?",
+      answer: `The workstream I owned end to end is adsmaker, a product that turns a URL into a video ad. It is my own product: the architecture, the code, the pipeline and the operations are mine, working with third-party libraries and frameworks where those are the right tool. It started while I was helping my wife prepare a campaign for a product, and it is live today, still in research and development while I validate use cases. I am not claiming traction or revenue.
+
+How I break work like this down is a principle rather than a fixed schedule, because the order changed as I learned the problem. I get a complete path working end to end before I optimise any stage: a complete output, even a mediocre one, tells me where the real bottleneck is, while a beautiful fragment tells me nothing about the pipeline. Then I improve one stage at a time, in the order the bottleneck actually shows up, and I keep the scope narrow on purpose, because in a solo project the binding constraint is my own attention, not the market.
+
+Two design decisions have carried most of the weight. The scene plan is versioned JSON, so the creative direction is data: I can regenerate a video without re-running the whole pipeline, and change one stage without touching the others. And the code is modular, in a dozen packages, so each stage evolves independently.
+
+Prioritisation, in one line: what blocks the next stage, then what a user would notice, then what is cheap.`,
+      flow: {
+        title: "Pipeline shape (illustrative)",
+        kind: "steps",
+        items: [
+          ["Input", "the campaign URL"],
+          ["Brand synthesis", "language and identity extracted"],
+          ["Creative direction", "scene plan as versioned JSON"],
+          ["Media", "text to speech, subtitles, frame OCR"],
+          ["Render", "render plus automated visual review"]
+        ],
+        note: "Two decisions make this pipeline cheap to change: the scene plan is data, and each stage is an independent package, so a video can be regenerated without re-running everything."
+      }
+    },
+    {
+      id: 21, cat: "own", catName: "Ownership and working with Product",
+      nav: "When Product asks for a feature I disagree with",
+      q: "Product asks you for a feature you think is a bad idea or is not well defined. What do you do?",
+      answer: `My first move is to separate the request from the problem, because most bad features are a solution that arrived before the problem was written down. So I ask what outcome they want, for whom, how many, and what they do today. With usage data or tickets, the conversation becomes about evidence instead of taste.
+
+Then I reframe. If the request is well-founded but the solution is not the best one, I bring options instead of a refusal: do nothing, a smaller slice that tests the risky assumption, or a different approach. If the requirement is undefined, I propose a time-boxed spike to answer the question that blocks the decision.
+
+When I write the recommendation, I make the trade-offs explicit, so the decision can be made by whoever has the business context: impact, effort, risk and what we give up. I bring a recommendation, not a list of risks, because risks without a proposal just transfer the problem back.
+
+If the risk is legal, security or financial, I escalate and document it. If the decision goes against me, I execute it properly and make the risk visible: monitoring for the outcome we feared, and a kill switch.
+
+The same skill applies to a large migration I decomposed: we agreed on the decomposition and on incremental delivery, shipping slices instead of one big cutover.
+
+What I avoid is the disagreement living only in my head, and even more, being the person who says no to everything.`,
+      flow: {
+        title: "A one-page note for the conversation with Product (illustrative)",
+        kind: "table",
+        head: ["Field", "What to write"],
+        rows: [
+          ["Problem", "who suffers, how often, evidence (usage, tickets, data)"],
+          ["Request versus solution", "the expected outcome, separate from the proposed mechanism"],
+          ["Options", "do nothing / smallest slice / alternative approach, with cost and risk"],
+          ["Recommendation", "my choice and why, in one sentence"],
+          ["Trade-offs", "expected impact, effort, risk, what we stop doing"],
+          ["Decision", "who decides, by when, and what we monitor if the decision goes the other way"]
+        ]
+      }
+    }
+  ];
+
+  var CATS = [
+    { id: "go",  name: "Backend and Go" },
+    { id: "sql", name: "SQL and PostgreSQL" },
+    { id: "fe",  name: "Frontend (React / TypeScript)" },
+    { id: "arc", name: "Architecture, cloud and events" },
+    { id: "qa",  name: "Testing, CI and production" },
+    { id: "ai",  name: "AI in day-to-day work" },
+    { id: "own", name: "Ownership and working with Product" }
+  ];
+
+  var AUTHOR = "Nicolas Van Klaveren";
+  var ROLE = "Senior Full Stack Engineer · Backend-focused";
+  var EXPORT_NAME = "senior-fullstack-engineering-answers.md";
+
+  /* ================================================================ appendix
+     Delivery and CI/CD contract. It is not a questionnaire entry: it is
+     rendered after the questions and repeated verbatim by the Markdown
+     export, so the page and the static file always describe the same
+     pipeline. */
+  var APPENDIX = {
+    id: "delivery",
+    eyebrow: "Appendix",
+    title: "Delivery & CI/CD",
+    lede: "This appendix describes the delivery path of this page and of its Markdown export, and how the CI/CD is split between a public validation pipeline and a private promotion pipeline.",
+    blocks: [
+      {
+        h: "Public source",
+        p: "The site is one HTML file with no framework, no build step and no runtime dependency: a single data array drives both the page and the Markdown export, and the browser is the only runtime. The source, the export script and the tests are public.",
+        links: [
+          { label: "Repository", href: "https://github.com/nklaveren/matw-playbook" },
+          { label: "Workflow runs", href: "https://github.com/nklaveren/matw-playbook/actions/workflows/site.yml" }
+        ]
+      },
+      {
+        h: "What the public pipeline does",
+        p: "The \"Validate site\" workflow runs on GitHub-hosted runners with read-only repository permissions. It parses the inline JavaScript, checks the question entries and the static Markdown, runs the unit and browser tests, and — only for a successful push to main — uploads an artifact named \"site\" that contains exactly two files: index.html and senior-fullstack-engineering-answers.md.",
+        p2: "There the public pipeline stops: it never deploys and never authenticates against a production environment."
+      },
+      {
+        h: "What the private pipeline does",
+        p: "Deployment lives in a separate private repository. Its pipeline consumes a successful run of the public workflow from main and updates the private GitOps manifests. Promotion to production is a manual trigger inside the private repository, not an automatic push from the public one."
+      },
+      {
+        h: "Where the boundary is",
+        p: "Cluster manifests stay in the private repository; cluster credentials and network access stay with the deployment controller. The public workflow has neither and never clones a private repository."
+      }
+    ],
+    note: "Only the artifact crosses the boundary: two static files, validated by the public pipeline and promoted by a human in the private one."
+  };
+
+  /* ================================================================ utils */
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function el(tag, cls, html) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (html !== undefined) n.innerHTML = html;
+    return n;
+  }
+  function esc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function paras(txt) {
+    return String(txt).split(/\n{2,}/).filter(function (p) { return p.trim(); })
+      .map(function (p) { return "<p>" + esc(p).replace(/\n/g, " ") + "</p>"; }).join("");
+  }
+
+  /* ================================================================ toast */
+  var toastTimer = null;
+  function toast(msg, isErr) {
+    var t = $("#toast");
+    t.textContent = msg;
+    t.className = "toast show" + (isErr ? " err" : "");
+    if (toastTimer) window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(function () { t.className = "toast"; }, 2800);
+  }
+
+  /* ================================================================ copy */
+  function copyText(text, okMsg) {
+    function fallback() {
+      try {
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.top = "-1000px";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        var ok = false;
+        try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+        document.body.removeChild(ta);
+        if (ok) { toast(okMsg || "Copied"); }
+        else { toast("Could not copy — select the text and use Ctrl/Cmd+C", true); }
+      } catch (e) {
+        toast("Copy failed in this browser — select the text manually", true);
+      }
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(function () {
+        toast(okMsg || "Copied");
+      })["catch"](fallback);
+    } else {
+      fallback();
+    }
+  }
+
+  /* ================================================================ markdown export */
+  function mdCell(v) {
+    return String(v).replace(/\|/g, "\\|");
+  }
+  function buildMarkdown() {
+    var out = [];
+    out.push("# Engineering Questionnaire");
+    out.push("");
+    out.push("**" + AUTHOR + "** — " + ROLE);
+    out.push("");
+    out.push("Answers below are my own and reflect my experience. The code snippets are illustrative examples of the approach, not production code.");
+    out.push("");
+    CATS.forEach(function (c) {
+      var items = QUESTIONS.filter(function (q) { return q.cat === c.id; });
+      if (!items.length) return;
+      out.push("## " + c.name);
+      out.push("");
+      items.forEach(function (q) {
+        out.push("### " + q.id + ". " + q.q);
+        out.push("");
+        out.push(q.answer.trim());
+        out.push("");
+        if (q.flow) {
+          out.push("**" + q.flow.title + "**");
+          out.push("");
+          if (q.flow.kind === "table") {
+            out.push("| " + q.flow.head.map(mdCell).join(" | ") + " |");
+            out.push("| " + q.flow.head.map(function () { return "---"; }).join(" | ") + " |");
+            q.flow.rows.forEach(function (r) {
+              out.push("| " + r.map(mdCell).join(" | ") + " |");
+            });
+            out.push("");
+          } else {
+            q.flow.items.forEach(function (it) {
+              out.push("- **" + mdCell(it[0]) + "** — " + mdCell(it[1]));
+            });
+            out.push("");
+          }
+          if (q.flow.note) {
+            out.push(mdCell(q.flow.note));
+            out.push("");
+          }
+        }
+        if (q.code) {
+          out.push("**Illustrative example (" + q.code.lang + ")**");
+          out.push("");
+          out.push("```" + q.code.lang);
+          out.push(q.code.body.replace(/\s+$/, ""));
+          out.push("```");
+          out.push("");
+        }
+      });
+    });
+    out.push("## " + APPENDIX.title);
+    out.push("");
+    out.push(APPENDIX.lede);
+    out.push("");
+    APPENDIX.blocks.forEach(function (b) {
+      out.push("### " + b.h);
+      out.push("");
+      out.push(b.p);
+      out.push("");
+      if (b.p2) {
+        out.push(b.p2);
+        out.push("");
+      }
+      if (b.links && b.links.length) {
+        b.links.forEach(function (l) {
+          out.push("- [" + l.label + "](" + l.href + ")");
+        });
+        out.push("");
+      }
+    });
+    out.push(APPENDIX.note);
+    out.push("");
+    return out.join("\n");
+  }
+  function exportMarkdown() {
+    var md = buildMarkdown().replace(/\s+$/, "") + "\n";
+    try {
+      var blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = EXPORT_NAME;
+      a.rel = "noopener";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+      toast("Markdown file downloaded (" + EXPORT_NAME + ")");
+    } catch (e) {
+      toast("Could not create the file in this browser", true);
+    }
+  }
+
+  /* ================================================================ appendix */
+  function renderAppendix() {
+    var sec = el("section", "delivery");
+    sec.id = APPENDIX.id;
+    sec.setAttribute("aria-labelledby", APPENDIX.id + "Title");
+
+    var eyebrow = el("div", "eyebrow");
+    eyebrow.textContent = APPENDIX.eyebrow;
+    sec.appendChild(eyebrow);
+
+    var h = el("h2");
+    h.id = APPENDIX.id + "Title";
+    h.textContent = APPENDIX.title;
+    sec.appendChild(h);
+
+    var lede = el("p", "lede");
+    lede.textContent = APPENDIX.lede;
+    sec.appendChild(lede);
+
+    var grid = el("div", "delivery-grid");
+    APPENDIX.blocks.forEach(function (b) {
+      var c = el("div", "delivery-card");
+      var bh = el("h3");
+      bh.textContent = b.h;
+      c.appendChild(bh);
+      var p = el("p");
+      p.textContent = b.p;
+      c.appendChild(p);
+      if (b.p2) {
+        var p2 = el("p");
+        p2.textContent = b.p2;
+        c.appendChild(p2);
+      }
+      if (b.links && b.links.length) {
+        var links = el("div", "delivery-links");
+        b.links.forEach(function (l) {
+          var a = el("a");
+          a.href = l.href;
+          a.textContent = l.label;
+          a.rel = "noopener noreferrer";
+          a.target = "_blank";
+          links.appendChild(a);
+        });
+        c.appendChild(links);
+      }
+      grid.appendChild(c);
+    });
+    sec.appendChild(grid);
+
+    var note = el("p", "delivery-note");
+    note.textContent = APPENDIX.note;
+    sec.appendChild(note);
+
+    doc.appendChild(sec);
+  }
+
+  /* ================================================================ render */
+  var doc = $("#doc");
+  var navEl = $("#nav");
+
+  function buildDoc() {
+    var head = el("div", "doc-head");
+    head.innerHTML =
+      '<div class="eyebrow">Engineering Questionnaire</div>' +
+      '<h1>Senior Full Stack Engineer · Backend-focused</h1>' +
+      '<div class="byline">' + esc(AUTHOR) + '</div>' +
+      '<p class="lede">These are my answers to the questionnaire, in the order the questions were sent. ' +
+      'Each answer describes what I actually do and the reasoning behind it; the snippets are illustrative examples of the approach, not production code.</p>';
+    doc.appendChild(head);
+
+    QUESTIONS.forEach(function (q) {
+      var sec = el("section", "q");
+      sec.id = "q" + q.id;
+      sec.setAttribute("aria-labelledby", "qt" + q.id);
+
+      var head2 = el("div", "qhead");
+      head2.appendChild(el("span", "qnum", String(q.id).padStart(2, "0")));
+      head2.appendChild(el("span", "chip teal", q.catName));
+      sec.appendChild(head2);
+
+      var h = el("h2", "qtitle");
+      h.id = "qt" + q.id;
+      h.textContent = q.q;
+      sec.appendChild(h);
+
+      var ans = el("div", "answer prose");
+      ans.innerHTML = paras(q.answer);
+      sec.appendChild(ans);
+
+      if (q.code) {
+        var c = el("div", "card");
+        var ch = el("header");
+        ch.appendChild(el("div", "sec-label", "Illustrative example (" + q.code.lang + ")"));
+        var cBtn = el("button", "btn", "Copy");
+        cBtn.type = "button";
+        cBtn.setAttribute("aria-label", "Copy the illustrative example for question " + q.id);
+        cBtn.addEventListener("click", function () { copyText(q.code.body, "Example copied"); });
+        ch.appendChild(cBtn);
+        c.appendChild(ch);
+        var pre = el("pre");
+        var code = el("code");
+        code.textContent = q.code.body;
+        pre.appendChild(code);
+        c.appendChild(pre);
+        sec.appendChild(c);
+      }
+
+      if (q.flow) {
+        var f = el("div", "card");
+        var fh = el("header");
+        fh.appendChild(el("div", "sec-label", q.flow.title));
+        f.appendChild(fh);
+        if (q.flow.kind === "table") {
+          var tw = el("div", "tblwrap");
+          var tbl = el("table");
+          tbl.innerHTML = "<thead><tr>" + q.flow.head.map(function (x) { return "<th>" + esc(x) + "</th>"; }).join("") + "</tr></thead><tbody>" +
+            q.flow.rows.map(function (r) {
+              return "<tr>" + r.map(function (c2) { return "<td>" + esc(c2) + "</td>"; }).join("") + "</tr>";
+            }).join("") + "</tbody>";
+          tw.appendChild(tbl);
+          f.appendChild(tw);
+        } else {
+          var fl = el("div", "flow");
+          q.flow.items.forEach(function (it, i) {
+            if (i) fl.appendChild(el("span", "arrow", "→"));
+            fl.appendChild(el("div", "node", "<b>" + esc(it[0]) + "</b>" + esc(it[1])));
+          });
+          f.appendChild(fl);
+        }
+        if (q.flow.note) f.appendChild(el("p", "flow-note", esc(q.flow.note)));
+        sec.appendChild(f);
+      }
+
+      doc.appendChild(sec);
+    });
+  }
+
+  function buildNav() {
+    navEl.innerHTML = "";
+    CATS.forEach(function (c) {
+      var items = QUESTIONS.filter(function (q) { return q.cat === c.id; });
+      if (!items.length) return;
+      var g = el("div", "nav-group");
+      var h = el("h3");
+      h.innerHTML = "<span>" + esc(c.name) + "</span><span class='cnt'>" + items.length + "</span>";
+      g.appendChild(h);
+      var ul = el("ul", "nav-list");
+      items.forEach(function (q) {
+        var li = el("li");
+        var b = el("button", "nav-link");
+        b.type = "button";
+        b.dataset.q = q.id;
+        b.dataset.text = (q.nav + " " + q.q + " " + q.answer).toLowerCase();
+        b.innerHTML = '<span class="num">' + String(q.id).padStart(2, "0") + '</span><span class="txt">' + esc(q.nav) + "</span>";
+        b.addEventListener("click", function () {
+          closeNav();
+          jumpTo(q.id);
+        });
+        li.appendChild(b);
+        ul.appendChild(li);
+      });
+      g.appendChild(ul);
+      navEl.appendChild(g);
+    });
+  }
+
+  function jumpTo(id) {
+    var target = document.getElementById("q" + id);
+    if (!target) return;
+    target.scrollIntoView({ block: "start", behavior: "auto" });
+    var link = navEl.querySelector('.nav-link[data-q="' + id + '"]');
+    if (link) {
+      setCurrent(id);
+      link.focus({ preventScroll: true });
+    }
+  }
+  function setCurrent(id) {
+    var links = navEl.querySelectorAll(".nav-link");
+    for (var i = 0; i < links.length; i++) {
+      links[i].setAttribute("aria-current", parseInt(links[i].dataset.q, 10) === id ? "true" : "false");
+    }
+  }
+
+  /* ================================================================ search */
+  var searchInput = $("#search");
+  function applySearch() {
+    var term = searchInput.value.trim().toLowerCase();
+    var links = navEl.querySelectorAll(".nav-link");
+    var first = null, visible = 0;
+    for (var i = 0; i < links.length; i++) {
+      var hit = !term || links[i].dataset.text.indexOf(term) !== -1;
+      links[i].parentNode.style.display = hit ? "" : "none";
+      if (hit) { visible++; if (!first) first = links[i]; }
+    }
+    var groups = navEl.querySelectorAll(".nav-group");
+    for (var j = 0; j < groups.length; j++) {
+      var any = Array.from(groups[j].querySelectorAll("li")).some(function (li) { return li.style.display !== "none"; });
+      groups[j].style.display = any ? "" : "none";
+    }
+    if (term) {
+      toast(visible + (visible === 1 ? " match — press Enter to open it" : " matches — press Enter to open the first"));
+    }
+    return first;
+  }
+  searchInput.addEventListener("input", applySearch);
+  searchInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      var first = applySearch();
+      if (first) jumpTo(parseInt(first.dataset.q, 10));
+    } else if (e.key === "Escape") {
+      searchInput.value = "";
+      applySearch();
+      searchInput.blur();
+    }
+  });
+
+  /* ================================================================ theme */
+  function applyTheme() {
+    var t = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", t);
+  }
+  $("#themeBtn").addEventListener("click", function () {
+    var cur = document.documentElement.getAttribute("data-theme");
+    document.documentElement.setAttribute("data-theme", cur === "dark" ? "light" : "dark");
+  });
+
+  /* ================================================================ export */
+  $("#exportBtn").addEventListener("click", exportMarkdown);
+
+  /* ================================================================ mobile nav */
+  function closeNav() { document.body.classList.remove("nav-open"); $("#navToggle").setAttribute("aria-expanded", "false"); }
+  $("#navToggle").addEventListener("click", function () {
+    var open = document.body.classList.toggle("nav-open");
+    this.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+
+  /* ================================================================ keyboard */
+  document.addEventListener("keydown", function (e) {
+    var t = e.target;
+    var typing = t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable);
+    if (e.key === "/" && !typing) { e.preventDefault(); searchInput.focus(); searchInput.select(); return; }
+    if (typing) return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key.toLowerCase();
+    if (k === "d") { $("#themeBtn").click(); }
+    else if (e.key === "Escape") { closeNav(); }
+  });
+
+  /* ================================================================ scroll spy */
+  function initSpy() {
+    if (!("IntersectionObserver" in window)) return;
+    var sections = QUESTIONS.map(function (q) { return document.getElementById("q" + q.id); });
+    var obs = new IntersectionObserver(function (entries) {
+      for (var i = 0; i < entries.length; i++) {
+        if (entries[i].isIntersecting) {
+          setCurrent(parseInt(entries[i].target.id.replace("q", ""), 10));
+        }
+      }
+    }, { rootMargin: "-70px 0px -70% 0px", threshold: 0 });
+    sections.forEach(function (s) { if (s) obs.observe(s); });
+  }
+
+  /* ================================================================ boot */
+  applyTheme();
+  buildDoc();
+  renderAppendix();
+  buildNav();
+  initSpy();
+})();
+</script>
+</body>
+</html>
