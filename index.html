@@ -2,6 +2,7 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
+<base id="siteBase" href="/matw_pb/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Engineering Questionnaire — Nicolas Van Klaveren, Senior Full Stack Engineer (Backend-focused). 21 questions with written answers and illustrative technical examples.">
 <title>Nicolas Van Klaveren — From context to verified outcomes</title>
@@ -4491,6 +4492,7 @@ void main() {
 /* THREE_GRAPH_BUNDLE_END */
 (function () {
   "use strict";
+  if (location.protocol === "file:") document.getElementById("siteBase").href = new URL("./", location.href).href;
   var PROFILE = {
     name: "Nicolas Van Klaveren",
     role: "Senior Software Architect & AI Engineer",
@@ -5726,7 +5728,7 @@ What I avoid is the disagreement living only in my head, and even more, being th
       doc.scrollTop = 0;
       $("#qt" + id).focus({ preventScroll: true });
       if (graph) graph.reframe();
-      history.replaceState(null, "", "#q" + id);
+      history.replaceState(null, "", location.href.split("#")[0] + "#q" + id);
     }
     if (animate !== false && !panel.open && !matchMedia("(prefers-reduced-motion: reduce)").matches) navigationTimer = setTimeout(showAnswer, 260);
     else showAnswer();
@@ -5888,7 +5890,7 @@ What I avoid is the disagreement living only in my head, and even more, being th
     $("#nextQuestion").addEventListener("click", function () { if (currentQuestion < QUESTIONS.length) jumpTo(currentQuestion + 1); else showDelivery(); });
     $("#answerPanel").addEventListener("close", function () {
       document.body.classList.remove("reading-answer");
-      history.replaceState(null, "", "#explore");
+      history.replaceState(null, "", location.href.split("#")[0] + "#explore");
     });
     $("#aboutButton").addEventListener("click", function () { graph.focusHome(); openAbout(); });
     $("#sidebarAbout").addEventListener("click", openAbout);

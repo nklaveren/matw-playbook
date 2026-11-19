@@ -34,6 +34,7 @@ function resolveTarget(urlPath) {
   } catch {
     return null;
   }
+  if (decoded === BASE_PATH.slice(0, -1)) return path.join(ROOT, "index.html");
   if (!decoded.startsWith(BASE_PATH)) return null;
   const relative = decoded.slice(BASE_PATH.length);
   if (relative === "" || relative.endsWith("/")) {

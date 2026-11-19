@@ -2,6 +2,24 @@ import { test, expect } from '@playwright/test';
 
 const pageErrors = new WeakMap();
 
+test('the slashless address serves the page directly and keeps downloads and question navigation working', async ({ page, request }) => {
+  const response = await page.goto('/matw_pb');
+  expect(response.status()).toBe(200);
+  expect(new URL(page.url()).pathname).toBe('/matw_pb');
+  const markdown = await page.locator('#llmLink').evaluate(link => link.href);
+  const docx = await page.locator('.docx-download').evaluate(link => link.href);
+  expect(new URL(markdown).pathname).toBe('/matw_pb/senior-fullstack-engineering-answers.md');
+  expect(new URL(docx).pathname).toBe('/matw_pb/senior-fullstack-engineering-answers.docx');
+  expect((await request.get(markdown)).status()).toBe(200);
+  expect((await request.get(docx)).status()).toBe(200);
+  await page.locator('.map-question-hit[data-question="1"]').click();
+  await expect(page.locator('#q1')).toBeVisible();
+  expect(new URL(page.url()).pathname).toBe('/matw_pb');
+  expect(new URL(page.url()).hash).toBe('#q1');
+  await page.locator('#closeAnswer').click();
+  expect(new URL(page.url()).pathname).toBe('/matw_pb');
+});
+
 test.beforeEach(async ({ page }) => {
   const errors = [];
   pageErrors.set(page, errors);
